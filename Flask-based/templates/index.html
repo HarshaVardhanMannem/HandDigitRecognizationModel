@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Recognition App</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="main-header">✏️ Handwritten Digit Recognition</header>
+    <div class="container">
+        <div class="canvas-container">
+            <canvas id="canvas" width="280" height="280"></canvas>
+            <div class="controls-row">
+                <button id="clearBtn" class="clear-button">🗑️ Clear</button>
+                <button id="predictBtn" class="predict-button">🔍 Predict</button>
+            </div>
+        </div>
+        <div class="result-container">
+            <div id="preprocessed" class="preprocessed-image"></div>
+            <div id="prediction" class="prediction-text"></div>
+            <div id="confidence" class="confidence-text"></div>
+            <canvas id="chart" width="400" height="200"></canvas>
+            <ul id="top3" class="top3-list"></ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

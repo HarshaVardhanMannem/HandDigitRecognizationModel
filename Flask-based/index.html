@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Handwritten Digit Recognition</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Your custom overrides -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+  />
+</head>
+<body class="bg-light">
+
+  <!-- Navbar/Header -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+    <div class="container">
+      <a class="navbar-brand fs-2 text-primary" href="#">
+        <span class="me-2">✏️</span>Handwritten Digit Recognition
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Drawing Card -->
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Draw a Digit</h5>
+            <div class="d-flex justify-content-center mb-3">
+              <canvas
+                id="canvas"
+                width="280"
+                height="280"
+                class="border rounded"
+              ></canvas>
+            </div>
+            <div class="d-grid d-md-flex gap-2">
+              <button id="clearBtn" class="btn btn-danger flex-fill">
+                🗑️ Clear
+              </button>
+              <button id="predictBtn" class="btn btn-success flex-fill">
+                🔍 Predict
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Card -->
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Results</h5>
+            <div id="prediction" class="fs-1 text-success text-center"></div>
+            <div
+              id="confidence"
+              class="fs-5 text-muted text-center mb-3"
+            ></div>
+            <div class="mb-3">
+              <canvas id="chart" width="400" height="200"></canvas>
+            </div>
+            <ul id="top3" class="list-group list-group-flush"></ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS + dependencies -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.1/dist/js/bootstrap.bundle.min.js"
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

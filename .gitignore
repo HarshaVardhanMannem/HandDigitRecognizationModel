@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+mnistEnv/
+venv/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Model checkpoints and large files
+*.h5
+*.pyd
+*.dll
+*.so
+*.dylib
+
+# Logs
+*.log
+
+# TensorFlow specific
+*.pb
+*.pbtxt
+*.ckpt
+*.meta
+*.index
+*.data-*
+*.whl
+events.out.tfevents.*
+model.ckpt.*
+checkpoint
+saved_model.pb
+variables/
+assets/
+*/_pywrap_tensorflow_internal.*
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Package specific
+tensorflow/
+keras/
+numpy/
+scipy/
+sklearn/
+pandas/
+torch/ 

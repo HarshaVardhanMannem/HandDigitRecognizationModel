@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  background: #f0f2f6;
+  font-family: Arial, sans-serif;
+}
+.main-header {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 2.5rem;
+  color: #1E88E5;
+  background: linear-gradient(to right, #E3F2FD, #BBDEFB);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+.canvas-container,
+.result-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+}
+#canvas {
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: crosshair;
+}
+.controls-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.controls-row button {
+  flex: 1;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.clear-button {
+  background: #f44336;
+  color: #fff;
+}
+.predict-button {
+  background: #4CAF50;
+  color: #fff;
+}
+.prediction-text {
+  font-size: 3rem;
+  text-align: center;
+  color: #4CAF50;
+}
+.confidence-text {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #555;
+}
+.top3-list {
+  list-style: none;
+  padding: 0;
+}
+.top3-list li {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}

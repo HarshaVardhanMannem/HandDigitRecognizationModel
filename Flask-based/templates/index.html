@@ -9,15 +9,23 @@
 <body>
     <header class="main-header">✏️ Handwritten Digit Recognition</header>
     <div class="container">
-        <div class="canvas-container">
+        <div class="window canvas-container">
+            <h2>Canvas</h2>
             <canvas id="canvas" width="280" height="280"></canvas>
             <div class="controls-row">
                 <button id="clearBtn" class="clear-button">🗑️ Clear</button>
                 <button id="predictBtn" class="predict-button">🔍 Predict</button>
             </div>
         </div>
-        <div class="result-container">
-            <div id="preprocessed" class="preprocessed-image"></div>
+        <div class="window processed-window">
+            <h2>Processed Image</h2>
+            <div class="processed-image-container">
+                <img id="preprocessed" class="preprocessed-image" alt="Processed digit">
+                <div class="image-placeholder">Draw a digit to see processing</div>
+            </div>
+        </div>
+        <div class="window result-container">
+            <h2>Result</h2>
             <div id="prediction" class="prediction-text"></div>
             <div id="confidence" class="confidence-text"></div>
             <canvas id="chart" width="400" height="200"></canvas>

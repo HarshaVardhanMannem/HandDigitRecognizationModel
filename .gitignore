@@ -2,16 +2,48 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
 # Virtual Environment
-mnistEnv/
 venv/
 ENV/
+.env
 
-# Distribution / packaging
-dist/
-build/
-*.egg-info/
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Model files (if you want to exclude them)
+# *.h5
+# *.pkl
+
+# Logs
+*.log
+
+# Local development settings
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -28,9 +60,6 @@ build/
 *.dll
 *.so
 *.dylib
-
-# Logs
-*.log
 
 # TensorFlow specific
 *.pb

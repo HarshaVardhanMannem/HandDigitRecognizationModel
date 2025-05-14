@@ -1,14 +1,14 @@
 # Handwritten Digit Recognition
 
-A neural network-based solution for handwritten digit recognition using TensorFlow and Streamlit. The project includes both the training pipeline and an interactive web application for recognizing uploaded MNIST-format digit images.
+A neural network-based solution for handwritten digit recognition using TensorFlow and Flask. The project includes both the training pipeline and an interactive web application for recognizing handwritten digits through a canvas interface.
 
 ## 🌟 Features
 
 - **CNN Model**: Convolutional Neural Network optimized for digit recognition
-- **Upload Interface**: Upload MNIST-format images for instant recognition
+- **Interactive Canvas**: Draw digits directly in the browser for instant recognition
 - **High Accuracy**: ~99.3% test accuracy on the MNIST dataset
-- **Visualization**: See confidence scores and probability distributions
-- **Data Augmentation**: Improved model generalization through augmentation techniques
+- **Real-time Prediction**: Get instant predictions with confidence scores
+- **Top 3 Predictions**: View the model's top 3 most likely predictions
 
 ## 📋 Project Structure
 
@@ -92,7 +92,7 @@ streamlit run app.py
 ```
 
 The application provides the following functionality:
-- **Upload Image**: Upload an image containing a handwritten digit in MNIST format (28x28 pixels, grayscale)
+- **Interactive Canvas**: Draw digits directly in the browser for instant recognition
 
 ## 📊 Performance
 
@@ -105,7 +105,7 @@ The model achieves excellent performance on the MNIST dataset:
 
 The Streamlit web application offers a user-friendly interface with:
 
-- **Image Upload**: Test with existing images of handwritten digits in MNIST format
+- **Interactive Canvas**: Draw digits directly in the browser for instant recognition
 - **Preprocessing Visualization**: See how images are processed before prediction
 - **Confidence Scores**: Visualize model's confidence for each digit class
 - **Top Predictions**: View top 3 most likely digits and their probabilities

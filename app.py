@@ -4,11 +4,12 @@ import numpy as np
 from PIL import Image, ImageOps
 import io
 import base64
+import os
 
 app = Flask(__name__)
 
 # Load once at startup
-model = tf.keras.models.load_model('best_mnist_model.h5')
+model = tf.keras.models.load_model(os.path.join(os.path.dirname(__file__), 'models', 'best_mnist_model.h5'))
 
 def preprocess_image(img_bytes):
     # Open the image, convert to grayscale, resize, invert colors, normalize
@@ -47,6 +48,6 @@ def predict():
         'top3': top3,
         'processedImage': f'data:image/png;base64,{processed_img_str}'
     })
-
 if __name__ == '__main__':
     app.run(debug=True)
+

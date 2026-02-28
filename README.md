@@ -1,52 +1,58 @@
 # Handwritten Digit Recognition
 
-A neural network-based solution for handwritten digit recognition using TensorFlow and Flask. The project includes both the training pipeline and an interactive web application for recognizing handwritten digits through a canvas interface.
+A neural network-based solution for handwritten digit recognition using TensorFlow and Flask. The project includes both a Jupyter notebook training pipeline and an interactive web application for recognizing handwritten digits through a canvas interface.
 
 ## 🌟 Features
 
-- **CNN Model**: Convolutional Neural Network optimized for digit recognition
+- **CNN Model**: Convolutional Neural Network with data augmentation optimized for digit recognition
 - **Interactive Canvas**: Draw digits directly in the browser for instant recognition
-- **High Accuracy**: ~99.3% test accuracy on the MNIST dataset
+- **High Accuracy**: 99.61% test accuracy on the MNIST dataset
 - **Real-time Prediction**: Get instant predictions with confidence scores
 - **Top 3 Predictions**: View the model's top 3 most likely predictions
 
 ## 📋 Project Structure
 
 ```
-mnist-digit-recognition/
-├── models/                   # Directory for saved models
-│   └── mnist_cnn_best.h5     # Best model checkpoint during training
-├── mnist_cnn_model.h5        # Final trained model
-├── train_model.py            # CNN training script
-├── app.py                    # Streamlit web application
-└── README.md                 # Project documentation
+HandDigitRecognizationModel/
+├── models/
+│   ├── best_mnist_model.h5           # Best model checkpoint (used by the web app)
+│   ├── mnist_cnn_model.h5            # Basic CNN model
+│   └── mnist_cnn_model_augmented.h5  # Augmented CNN model
+├── static/                           # CSS and JavaScript assets
+├── templates/
+│   └── index.html                    # Web app front-end
+├── MNIST-HandDigitRecognization.ipynb # Training notebook
+├── app.py                            # Flask web application
+└── README.md                         # Project documentation
 ```
 
 ## 🧠 Neural Network Architecture
 
-The CNN architecture consists of:
+The final model (`best_mnist_model.h5`) is a deeper CNN trained with data augmentation:
 
-1. **Three Convolutional Blocks**:
-   - Each block contains two Conv2D layers with increasing filter sizes (32→64→128)
-   - Batch normalization for stable training
-   - MaxPooling for spatial dimension reduction
-   - Dropout for regularization
+1. **Convolutional Blocks**:
+   - Block 1: Two Conv2D layers (32 filters, 3×3) + BatchNorm + MaxPooling + Dropout(0.25)
+   - Block 2: Two Conv2D layers (64 filters, 3×3) + BatchNorm + MaxPooling + Dropout(0.25)
+   - Input noise layer (GaussianNoise σ=0.1) for robustness
 
 2. **Dense Layers**:
-   - 256 neurons with ReLU activation and L2 regularization
+   - 256 neurons with ReLU activation + BatchNorm + Dropout(0.5)
    - Output layer with 10 neurons (one per digit) and softmax activation
-   
+
 3. **Training Configuration**:
-   - Adam optimizer with learning rate scheduling
-   - Early stopping to prevent overfitting
-   - Data augmentation with rotation, shifting, zooming
+   - Adam optimizer with learning rate scheduling (ReduceLROnPlateau)
+   - Early stopping (patience=5) restoring best weights
+   - Data augmentation: rotation ±10°, width/height shift ±10%, zoom ±10%, shear ±10%
+   - Batch size: 128 | Max epochs: 30 (stopped at epoch 16)
+
+4. **Total Parameters**: 871,530 trainable (≈3.32 MB)
 
 ## 💻 Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/mnist-digit-recognition.git
-   cd mnist-digit-recognition
+   git clone https://github.com/HarshaVardhanMannem/HandDigitRecognizationModel.git
+   cd HandDigitRecognizationModel
    ```
 
 2. Create a virtual environment and install dependencies:
@@ -62,7 +68,7 @@ The CNN architecture consists of:
    numpy>=1.20.0
    matplotlib>=3.5.0
    scikit-learn>=1.0.0
-   streamlit>=1.18.0
+   flask>=2.0.0
    pillow>=9.0.0
    ```
 
@@ -70,45 +76,71 @@ The CNN architecture consists of:
 
 ### Training the Model
 
-Run the training script to train the CNN model on the MNIST dataset:
+Open and run the Jupyter notebook to train the CNN model on the MNIST dataset:
 
 ```bash
-python train_model.py
+jupyter notebook MNIST-HandDigitRecognization.ipynb
 ```
 
-This script will:
-- Download the MNIST dataset
-- Preprocess the data
-- Train the CNN model
-- Evaluate model performance
-- Save the trained model as `mnist_cnn_model.h5`
+The notebook will:
+- Download and preprocess the MNIST dataset
+- Train a basic CNN model and save it as `models/mnist_cnn_model.h5`
+- Train an augmented CNN model with callbacks and save the best checkpoint as `models/best_mnist_model.h5`
+- Evaluate model performance and display confusion matrix, classification report, and precision–recall curves
 
 ### Running the Web Application
 
-Launch the Streamlit application:
+Launch the Flask application:
 
 ```bash
-streamlit run app.py
+python app.py
 ```
 
-The application provides the following functionality:
-- **Interactive Canvas**: Draw digits directly in the browser for instant recognition
+Then open your browser at `http://127.0.0.1:5000`. The application provides:
+- **Interactive Canvas**: Draw a digit directly in the browser
+- **Preprocessing Visualization**: See how your drawing is processed before prediction
+- **Confidence Scores**: View the model's confidence for each digit class
+- **Top 3 Predictions**: The three most likely digits and their probabilities
 
-## 📊 Performance
+## 📊 Model Training Results
 
-The model achieves excellent performance on the MNIST dataset:
-- Training accuracy: ~99.5%
-- Validation accuracy: ~99.4%
-- Test accuracy: ~99.3%
+### Training History (Augmented Model — best_mnist_model.h5)
 
-## 🌐 Web Application Details
+| Epoch | Train Accuracy | Val Accuracy | Val Loss | Learning Rate |
+|-------|---------------|--------------|----------|---------------|
+| 1     | 89.49%        | 86.78%       | 0.3314   | 1e-3          |
+| 2     | 96.67%        | 98.99%       | 0.0308   | 1e-3          |
+| 4     | 97.86%        | 99.25%       | 0.0230   | 1e-3          |
+| 8     | 98.69%        | 99.53%       | 0.0141   | 5e-4          |
+| 11    | 98.90%        | **99.61%**   | 0.0109   | 5e-4 ✓ best  |
+| 16    | 99.10%        | 99.55%       | 0.0112   | 2.5e-4 (stop) |
 
-The Streamlit web application offers a user-friendly interface with:
+*Early stopping restored weights from epoch 11 (best val_accuracy = 99.61%).*
 
-- **Interactive Canvas**: Draw digits directly in the browser for instant recognition
-- **Preprocessing Visualization**: See how images are processed before prediction
-- **Confidence Scores**: Visualize model's confidence for each digit class
-- **Top Predictions**: View top 3 most likely digits and their probabilities
+### Test Set Performance (10,000 samples)
+
+| Metric   | Score  |
+|----------|--------|
+| Accuracy | **99.61%** |
+| Macro Precision | 99.61% |
+| Macro Recall    | 99.61% |
+| Macro F1-Score  | 99.61% |
+| Macro Average Precision (AP) | **99.99%** |
+
+### Per-Class Classification Report
+
+| Digit | Precision | Recall | F1-Score | Support |
+|-------|-----------|--------|----------|---------|
+| 0     | 99.59%    | 99.90% | 99.75%   | 980     |
+| 1     | 99.74%    | 99.65% | 99.69%   | 1135    |
+| 2     | 99.61%    | 99.81% | 99.71%   | 1032    |
+| 3     | 99.51%    | 99.80% | 99.65%   | 1010    |
+| 4     | 99.29%    | 99.69% | 99.49%   | 982     |
+| 5     | 99.78%    | 99.44% | 99.61%   | 892     |
+| 6     | 99.89%    | 99.16% | 99.53%   | 958     |
+| 7     | 99.42%    | 99.81% | 99.61%   | 1028    |
+| 8     | 99.59%    | 99.59% | 99.59%   | 974     |
+| 9     | 99.70%    | 99.21% | 99.45%   | 1009    |
 
 ## 🔍 Future Improvements
 

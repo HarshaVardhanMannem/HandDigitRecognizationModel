@@ -16,6 +16,27 @@ This document summarizes the training outcomes from `MNIST-HandDigitRecognizatio
 - **Macro average precision (AP)**: **99.99%**
 - **Early stopping**: best validation accuracy at **epoch 11** (val_accuracy 0.9961)
 
+## Training Pipeline (Notebook)
+
+The training workflow in `MNIST-HandDigitRecognization.ipynb` follows these steps:
+
+1. **Data preparation**
+   - Load MNIST from Keras datasets
+   - Normalize to [0, 1] and reshape to (28, 28, 1)
+   - Split into training and validation sets
+2. **Baseline CNN**
+   - Train a simple CNN without augmentation
+   - Save to `models/mnist_cnn_model.h5`
+3. **Augmented CNN**
+   - Apply rotation, shift, zoom, and shear augmentation
+   - Add Gaussian noise, batch normalization, and dropout
+   - Train with callbacks (ReduceLROnPlateau + EarlyStopping)
+   - Save full model to `models/mnist_cnn_model_augmented.h5`
+   - Save best checkpoint as `models/best_mnist_model.h5`
+4. **Evaluation**
+   - Report accuracy, precision/recall/F1, and confusion matrix
+   - Generate precision–recall curves for class-level insight
+
 ## Baseline vs Augmented
 
 | Model | Key Differences | Best Val Accuracy | Test Accuracy | Artifact |

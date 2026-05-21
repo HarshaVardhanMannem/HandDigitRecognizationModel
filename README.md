@@ -29,6 +29,7 @@ HandDigitRecognizationModel/
 │   └── index.html                    # Web app front-end
 ├── MNIST-HandDigitRecognization.ipynb # Training notebook
 ├── app.py                            # Flask web application
+├── requirements.txt                  # Python dependencies
 └── README.md                         # Project documentation
 ```
 
@@ -82,7 +83,7 @@ The web app (`app.py`) uses the same preprocessing as training:
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install tensorflow>=2.8.0 numpy>=1.20.0 matplotlib>=3.5.0 scikit-learn>=1.0.0 flask>=2.0.0 pillow>=9.0.0
+   pip install -r requirements.txt
    ```
 
 3. Optional (for notebook execution):
@@ -191,7 +192,7 @@ Contributions are welcome! If you improve the model, the UI, or documentation:
 
 ## 📄 License
 
-No license file is included yet. Add a LICENSE file to clarify usage and distribution.
+This project is not yet licensed. Add a LICENSE file to clarify usage and distribution.
 
 ## 👨‍💻 Author
 

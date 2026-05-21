@@ -1,14 +1,20 @@
-# Handwritten Digit Recognition
+# Handwritten Digit Recognition (MNIST)
 
-A neural network-based solution for handwritten digit recognition using TensorFlow and Flask. The project includes both a Jupyter notebook training pipeline and an interactive web application for recognizing handwritten digits through a canvas interface.
+An end-to-end handwritten digit recognition project that pairs a TensorFlow CNN training notebook with a Flask web app for real-time canvas inference. It ships with trained model artifacts and documented evaluation results so contributors can reproduce, improve, and deploy the model quickly.
 
-## 🌟 Features
+## 🌟 Highlights
 
-- **CNN Model**: Convolutional Neural Network with data augmentation optimized for digit recognition
-- **Interactive Canvas**: Draw digits directly in the browser for instant recognition
-- **High Accuracy**: 99.61% test accuracy on the MNIST dataset
-- **Real-time Prediction**: Get instant predictions with confidence scores
-- **Top 3 Predictions**: View the model's top 3 most likely predictions
+- **Two CNN baselines**: a simple CNN and a deeper, augmented CNN with regularization
+- **Interactive web UI**: draw digits in the browser, preview preprocessing, and view top-3 predictions
+- **Reproducible training**: notebook-driven pipeline that saves checkpoints and evaluation artifacts
+- **Strong accuracy**: 99.61% test accuracy for the best augmented model
+
+## 📦 Dataset
+
+This project trains on the **MNIST** dataset:
+- **60,000** training images and **10,000** test images
+- 28×28 grayscale digits (0–9)
+- Normalized to [0, 1] and reshaped to (28, 28, 1)
 
 ## 📋 Project Structure
 
@@ -23,29 +29,47 @@ HandDigitRecognizationModel/
 │   └── index.html                    # Web app front-end
 ├── MNIST-HandDigitRecognization.ipynb # Training notebook
 ├── app.py                            # Flask web application
+├── requirements.txt                  # Python dependencies
 └── README.md                         # Project documentation
 ```
 
-## 🧠 Neural Network Architecture
+## 🧠 Model Architecture (best_mnist_model.h5)
 
-The final model (`best_mnist_model.h5`) is a deeper CNN trained with data augmentation:
+The production model is a deeper CNN trained with augmentation and regularization:
 
-1. **Convolutional Blocks**:
+1. **Convolutional Blocks**
    - Block 1: Two Conv2D layers (32 filters, 3×3) + BatchNorm + MaxPooling + Dropout(0.25)
    - Block 2: Two Conv2D layers (64 filters, 3×3) + BatchNorm + MaxPooling + Dropout(0.25)
    - Input noise layer (GaussianNoise σ=0.1) for robustness
 
-2. **Dense Layers**:
+2. **Dense Head**
    - 256 neurons with ReLU activation + BatchNorm + Dropout(0.5)
-   - Output layer with 10 neurons (one per digit) and softmax activation
+   - Output layer with 10 neurons (softmax)
 
-3. **Training Configuration**:
-   - Adam optimizer with learning rate scheduling (ReduceLROnPlateau)
-   - Early stopping (patience=5) restoring best weights
+3. **Training Configuration**
+   - Adam optimizer with ReduceLROnPlateau
+   - Early stopping (patience=5, restore best weights)
    - Data augmentation: rotation ±10°, width/height shift ±10%, zoom ±10%, shear ±10%
    - Batch size: 128 | Max epochs: 30 (stopped at epoch 16)
 
 4. **Total Parameters**: 871,530 trainable (≈3.32 MB)
+
+## 🔬 Training Pipeline (Notebook)
+
+The notebook `MNIST-HandDigitRecognization.ipynb` walks through:
+
+1. **Data prep**: load MNIST, normalize to [0, 1], reshape to (28, 28, 1)
+2. **Baseline CNN**: trains `mnist_cnn_model.h5` (simple CNN without augmentation)
+3. **Augmented CNN**: trains `mnist_cnn_model_augmented.h5` with callbacks and saves `best_mnist_model.h5`
+4. **Evaluation**: confusion matrix, classification report, and precision–recall curves
+
+## 🔎 Inference Pipeline (Flask App)
+
+The web app (`app.py`) uses the same preprocessing as training:
+
+1. Capture canvas input and send as base64 PNG
+2. Convert to grayscale, resize to 28×28, invert, and normalize
+3. Run inference, return top-1 prediction, confidence, top-3 list, and a processed-image preview
 
 ## 💻 Installation
 
@@ -62,14 +86,9 @@ The final model (`best_mnist_model.h5`) is a deeper CNN trained with data augmen
    pip install -r requirements.txt
    ```
 
-3. Requirements:
-   ```
-   tensorflow>=2.8.0
-   numpy>=1.20.0
-   matplotlib>=3.5.0
-   scikit-learn>=1.0.0
-   flask>=2.0.0
-   pillow>=9.0.0
+3. Optional (for notebook execution):
+   ```bash
+   pip install jupyter
    ```
 
 ## 🚀 Usage
@@ -102,7 +121,21 @@ Then open your browser at `http://127.0.0.1:5000`. The application provides:
 - **Confidence Scores**: View the model's confidence for each digit class
 - **Top 3 Predictions**: The three most likely digits and their probabilities
 
-## 📊 Model Training Results
+## 📊 Results & Improvements
+
+### Baseline vs Augmented (from notebook runs)
+
+| Model | Key Differences | Best Val Accuracy | Test Accuracy | Artifact |
+|-------|-----------------|-------------------|---------------|----------|
+| Baseline CNN | No augmentation, simpler training loop | **99.00%** (epoch 5) | — | `mnist_cnn_model.h5` |
+| Augmented CNN | Data augmentation + regularization + callbacks | **99.61%** (epoch 11) | **99.61%** | `best_mnist_model.h5` |
+
+### Why the Augmented Model Improves
+
+- **Data augmentation** expands the effective dataset, improving generalization to new handwriting styles
+- **Gaussian noise + dropout** reduce overfitting to training strokes
+- **Batch normalization** stabilizes optimization and speeds convergence
+- **ReduceLROnPlateau + early stopping** preserve the best-performing checkpoint
 
 ### Training History (Augmented Model — best_mnist_model.h5)
 
@@ -142,6 +175,15 @@ Then open your browser at `http://127.0.0.1:5000`. The application provides:
 | 8     | 99.59%    | 99.59% | 99.59%   | 974     |
 | 9     | 99.70%    | 99.21% | 99.45%   | 1009    |
 
+## 🤝 Contributing
+
+Contributions are welcome! If you improve the model, the UI, or documentation:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes with clear messages
+4. Open a pull request with a short summary and results
+
 ## 🔍 Future Improvements
 
 - Implement batch prediction for multiple digits
@@ -150,7 +192,7 @@ Then open your browser at `http://127.0.0.1:5000`. The application provides:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is not yet licensed. Add a LICENSE file to clarify usage and distribution.
 
 ## 👨‍💻 Author
 

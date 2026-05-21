@@ -32,26 +32,43 @@ HandDigitRecognizationModel/
 └── README.md                         # Project documentation
 ```
 
-## 🧠 Neural Network Architecture
+## 🧠 Model Architecture (best_mnist_model.h5)
 
-The final model (`best_mnist_model.h5`) is a deeper CNN trained with data augmentation:
+The production model is a deeper CNN trained with augmentation and regularization:
 
-1. **Convolutional Blocks**:
+1. **Convolutional Blocks**
    - Block 1: Two Conv2D layers (32 filters, 3×3) + BatchNorm + MaxPooling + Dropout(0.25)
    - Block 2: Two Conv2D layers (64 filters, 3×3) + BatchNorm + MaxPooling + Dropout(0.25)
    - Input noise layer (GaussianNoise σ=0.1) for robustness
 
-2. **Dense Layers**:
+2. **Dense Head**
    - 256 neurons with ReLU activation + BatchNorm + Dropout(0.5)
-   - Output layer with 10 neurons (one per digit) and softmax activation
+   - Output layer with 10 neurons (softmax)
 
-3. **Training Configuration**:
-   - Adam optimizer with learning rate scheduling (ReduceLROnPlateau)
-   - Early stopping (patience=5) restoring best weights
+3. **Training Configuration**
+   - Adam optimizer with ReduceLROnPlateau
+   - Early stopping (patience=5, restore best weights)
    - Data augmentation: rotation ±10°, width/height shift ±10%, zoom ±10%, shear ±10%
    - Batch size: 128 | Max epochs: 30 (stopped at epoch 16)
 
 4. **Total Parameters**: 871,530 trainable (≈3.32 MB)
+
+## 🔬 Training Pipeline (Notebook)
+
+The notebook `MNIST-HandDigitRecognization.ipynb` walks through:
+
+1. **Data prep**: load MNIST, normalize to [0, 1], reshape to (28, 28, 1)
+2. **Baseline CNN**: trains `mnist_cnn_model.h5` (simple CNN without augmentation)
+3. **Augmented CNN**: trains `mnist_cnn_model_augmented.h5` with callbacks and saves `best_mnist_model.h5`
+4. **Evaluation**: confusion matrix, classification report, and precision–recall curves
+
+## 🔎 Inference Pipeline (Flask App)
+
+The web app (`app.py`) uses the same preprocessing as training:
+
+1. Capture canvas input and send as base64 PNG
+2. Convert to grayscale, resize to 28×28, invert, and normalize
+3. Run inference, return top-1 prediction, confidence, top-3 list, and a processed-image preview
 
 ## 💻 Installation
 

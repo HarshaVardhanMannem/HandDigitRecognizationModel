@@ -82,17 +82,12 @@ The web app (`app.py`) uses the same preprocessing as training:
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
+   pip install tensorflow>=2.8.0 numpy>=1.20.0 matplotlib>=3.5.0 scikit-learn>=1.0.0 flask>=2.0.0 pillow>=9.0.0
    ```
 
-3. Requirements:
-   ```
-   tensorflow>=2.8.0
-   numpy>=1.20.0
-   matplotlib>=3.5.0
-   scikit-learn>=1.0.0
-   flask>=2.0.0
-   pillow>=9.0.0
+3. Optional (for notebook execution):
+   ```bash
+   pip install jupyter
    ```
 
 ## 🚀 Usage
@@ -125,7 +120,23 @@ Then open your browser at `http://127.0.0.1:5000`. The application provides:
 - **Confidence Scores**: View the model's confidence for each digit class
 - **Top 3 Predictions**: The three most likely digits and their probabilities
 
-## 📊 Model Training Results
+## 📊 Results & Improvements
+
+### Baseline vs Augmented (from notebook runs)
+
+| Model | Key Differences | Best Val Accuracy | Test Accuracy | Artifact |
+|-------|-----------------|-------------------|---------------|----------|
+| Baseline CNN | No augmentation, simpler training loop | **99.00%** (epoch 5) | — | `mnist_cnn_model.h5` |
+| Augmented CNN | Data augmentation + regularization + callbacks | **99.61%** (epoch 11) | **99.61%** | `best_mnist_model.h5` |
+
+### Why the Augmented Model Improves
+
+- **Data augmentation** expands the effective dataset, improving generalization to new handwriting styles
+- **Gaussian noise + dropout** reduce overfitting to training strokes
+- **Batch normalization** stabilizes optimization and speeds convergence
+- **ReduceLROnPlateau + early stopping** preserve the best-performing checkpoint
+
+### Training History (Augmented Model — best_mnist_model.h5)
 
 ### Training History (Augmented Model — best_mnist_model.h5)
 
@@ -165,6 +176,15 @@ Then open your browser at `http://127.0.0.1:5000`. The application provides:
 | 8     | 99.59%    | 99.59% | 99.59%   | 974     |
 | 9     | 99.70%    | 99.21% | 99.45%   | 1009    |
 
+## 🤝 Contributing
+
+Contributions are welcome! If you improve the model, the UI, or documentation:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes with clear messages
+4. Open a pull request with a short summary and results
+
 ## 🔍 Future Improvements
 
 - Implement batch prediction for multiple digits
@@ -173,7 +193,7 @@ Then open your browser at `http://127.0.0.1:5000`. The application provides:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+No license file is included yet. Add a LICENSE file to clarify usage and distribution.
 
 ## 👨‍💻 Author
 

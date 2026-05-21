@@ -138,8 +138,6 @@ Then open your browser at `http://127.0.0.1:5000`. The application provides:
 
 ### Training History (Augmented Model — best_mnist_model.h5)
 
-### Training History (Augmented Model — best_mnist_model.h5)
-
 | Epoch | Train Accuracy | Val Accuracy | Val Loss | Learning Rate |
 |-------|---------------|--------------|----------|---------------|
 | 1     | 89.49%        | 86.78%       | 0.3314   | 1e-3          |

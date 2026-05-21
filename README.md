@@ -1,14 +1,20 @@
-# Handwritten Digit Recognition
+# Handwritten Digit Recognition (MNIST)
 
-A neural network-based solution for handwritten digit recognition using TensorFlow and Flask. The project includes both a Jupyter notebook training pipeline and an interactive web application for recognizing handwritten digits through a canvas interface.
+An end-to-end handwritten digit recognition project that pairs a TensorFlow CNN training notebook with a Flask web app for real-time canvas inference. It ships with trained model artifacts and documented evaluation results so contributors can reproduce, improve, and deploy the model quickly.
 
-## 🌟 Features
+## 🌟 Highlights
 
-- **CNN Model**: Convolutional Neural Network with data augmentation optimized for digit recognition
-- **Interactive Canvas**: Draw digits directly in the browser for instant recognition
-- **High Accuracy**: 99.61% test accuracy on the MNIST dataset
-- **Real-time Prediction**: Get instant predictions with confidence scores
-- **Top 3 Predictions**: View the model's top 3 most likely predictions
+- **Two CNN baselines**: a simple CNN and a deeper, augmented CNN with regularization
+- **Interactive web UI**: draw digits in the browser, preview preprocessing, and view top-3 predictions
+- **Reproducible training**: notebook-driven pipeline that saves checkpoints and evaluation artifacts
+- **Strong accuracy**: 99.61% test accuracy for the best augmented model
+
+## 📦 Dataset
+
+This project trains on the **MNIST** dataset:
+- **60,000** training images and **10,000** test images
+- 28×28 grayscale digits (0–9)
+- Normalized to [0, 1] and reshaped to (28, 28, 1)
 
 ## 📋 Project Structure
 
